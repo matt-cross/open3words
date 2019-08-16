@@ -22,7 +22,7 @@ def latlon_to_rectnum(lat, lon):
     latline = int((lat + 90) * divs_per_degree)
     lonline = int((lon + 180) * divs_per_degree)
 
-    return latline * (180 * divs_per_degree) + lonline
+    return latline * (400 * divs_per_degree) + lonline
 
 # Given a rectangle number, convert it into 3 words from our wordlist.  Returns a string containing
 # the 3 words separated by a '.'
@@ -45,8 +45,8 @@ def latlon_to_words(lat, lon):
 # This performs the opposite of latlon_to_rectnum() - given a rectangle number, it converts it into
 # an approximate latitude and longitude.
 def rectnum_to_latlon(rectnum):
-    lonline = rectnum % (180 * 37000)
-    latline = rectnum / (180 * 37000)
+    lonline = rectnum % (400 * divs_per_degree)
+    latline = rectnum / (400 * divs_per_degree)
 
     lon = float(lonline) / float(divs_per_degree) - 180
     lat = float(latline) / float(divs_per_degree) - 90
