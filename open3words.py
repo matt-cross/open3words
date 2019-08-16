@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 # This word list has about 160000 words
 words = [line.strip() for line in open('usable_wordlist.txt', 'r').readlines()]
 
@@ -69,3 +71,20 @@ def words_to_rectnum(words_in):
 def words_to_latlon(words):
     return rectnum_to_latlon(words_to_rectnum(words))
 
+# Generic conversion function: takes a string and returns a string.  If the input string is a
+# 'lat,lon' pair, this will return 3 words corresponding to that latitude and longitude.  If the
+# input string is 3 words separated by a '.', it will return a 'lat,lon' string.  Otherwise it will
+# return the string 'ERROR'.
+def generic_convert(s):
+    latlon_maybe = s.split(',')
+    if len(latlon_maybe) == 2:
+        return latlon_to_words(float(latlon_maybe[0]), float(latlon_maybe[1]))
+    elif len(s.split('.')) == 3:
+        result = words_to_latlon(s)
+        return '{},{}'.format(result[0], result[1])
+    else:
+        return 'ERROR'
+
+if __name__ == '__main__':
+    for s in sys.argv[1:]:
+        print generic_convert(s)
